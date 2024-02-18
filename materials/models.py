@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import NULLABLE
+NULLABLE = {'blank': True, 'null': True}
 
 
 class Course(models.Model):
@@ -17,7 +17,7 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    Course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
+    Course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс', related_name='lesson')
     title = models.CharField(max_length=150 , verbose_name='Название урока')
     description = models.TextField(verbose_name='Описание', **NULLABLE)
     img = models.ImageField(upload_to='lesson', verbose_name='Картинка', **NULLABLE)
