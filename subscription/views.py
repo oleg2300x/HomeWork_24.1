@@ -17,7 +17,7 @@ class SubscribeAPIView(APIView):
         try:
             course_id = self.request.data["course"]
         except KeyError:
-            return Response({"error": "Missing 'course' parameter"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"Ошибка": "Отсутствует параметр «Course»"}, status=status.HTTP_400_BAD_REQUEST)
         course_item = get_object_or_404(Course, pk=course_id)
         subs_item = Subscriptions.objects.filter(user=user).filter(course=course_id).all()
         course_name = course_item.title
