@@ -11,15 +11,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nhzo1596$(si6-uia+xsw3c2*)w83$otjxfm%ds0@1aq0ggp(q'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,7 +90,7 @@ DATABASES = {
         'NAME': 'homework24_1',
         'USER': 'postgres',
         'PORT': '5433',
-        'PASSWORD': '5252887'
+        'PASSWORD': os.getenv('PASSWORD')
     }
 }
 
@@ -142,6 +146,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # время действия refresh токена (по умолчанию 1 день)
 }
 
-STRIPE_PUBLIC_KEY = 'pk_test_51OryCmG3rSqem2U7ih8arD4sZ8QOspQVg2WmSX5pLR7nMnKSQZ0L80daTpv43Z2Jjb50iHu51r9P82gELzP6ENVq00BXF2nZfM'
-STRIPE_SECRET_KEY = 'sk_test_51OryCmG3rSqem2U7AHv0PMkgfvNhbfn7iVa2tPWnn8GDmgol9jmC6zN0ZPtg4QIasRSehsNHke5EWrBnYy2PaPGt00TEcDXkBL'
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 # STRIPE_WEBHOOK_SECRET = ''
