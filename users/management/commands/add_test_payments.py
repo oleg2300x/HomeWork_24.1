@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
-from users.models import Payment, User
 
+from payment.models import Payment
 
 test_payments = [
     {

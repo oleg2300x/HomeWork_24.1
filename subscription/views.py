@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 
 class SubscribeAPIView(APIView):
     permission_classes = [IsAuthenticated]
+
     def post(self, *args, **kwargs):
         user = self.request.user
         try:
