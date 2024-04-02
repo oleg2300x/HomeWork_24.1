@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+
+  postgres_bd:
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 123qwe
+    volumes:
+      - pg_data:/var/lib/posgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: HomeWork_24
+    tty: true
+    depends_on:
+      postgres_bd:
+        condition: service_healthy
+    command: python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+    ports:
+      - '8000:8000'
+
+volumes:
+  pg_data:
+
