@@ -51,6 +51,21 @@ services:
     ports:
       - '8000:8000'
 
+  celery:
+    build: .
+    tty: true
+    command: celery -A config worker -l INFO -P eventlet
+    depends_on:
+      - redis
+      - app
+
+  celery_beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l INFO -S django
+    depends_on:
+      - redis
+      - app
 
 volumes:
   pg_data:
