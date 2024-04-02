@@ -1,10 +1,12 @@
 version: '3'
 
 services:
+
   redis:
     image: redis
     ports:
       - '6379:6379'
+
 
   postgres_bd:
     image: postgres
@@ -23,16 +25,32 @@ services:
       timeout: 5s
       retries: 5
 
-  app:
+
+  migarte:
     build: .
-    container_name: HomeWork_24
-    tty: true
+    container_name: HomeWork_24_migrate
     depends_on:
       postgres_bd:
         condition: service_healthy
-    command: python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+    command: python manage.py migrate
+    volumes:
+      - .:/app
+
+
+  app:
+    build: .
+    container_name: HomeWork_24
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      postgres_bd:
+        condition: service_completed_successfully
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - '8000:8000'
+
 
 volumes:
   pg_data:
